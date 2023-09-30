@@ -3,19 +3,21 @@ package br.com.alura.orgs.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import br.com.alura.orgs.R
 import br.com.alura.orgs.dao.ProdutoDAO
+import br.com.alura.orgs.databinding.ListaProdutosActivityBinding
 import br.com.alura.orgs.ui.recyclerview.adapter.ListaProdutosAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ListaProdutosActivity : AppCompatActivity(R.layout.activity_lista_produtos) {
+class ListaProdutosActivity : AppCompatActivity() {
 
     private val produtoDAO = ProdutoDAO()
     private val adapter = ListaProdutosAdapter(context = this, produtos = produtoDAO.buscaTodos())
+    private val binding by lazy {
+        ListaProdutosActivityBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(this.binding.root)
         configuraRecyclerView()
         configuraFab()
     }
@@ -25,8 +27,13 @@ class ListaProdutosActivity : AppCompatActivity(R.layout.activity_lista_produtos
         adapter.atualiza(this.produtoDAO.buscaTodos())
     }
 
+    private fun configuraRecyclerView() {
+        val recyclerView = this.binding.activityListaProdutosRecyclerView
+        recyclerView.adapter = this.adapter
+    }
+
     private fun configuraFab() {
-        val fab = findViewById<FloatingActionButton>(R.id.activity_lista_produtos_fab)
+        val fab = this.binding.activityListaProdutosFab
         fab.setOnClickListener {
             vaiParaFormularioProduto()
         }
@@ -35,11 +42,6 @@ class ListaProdutosActivity : AppCompatActivity(R.layout.activity_lista_produtos
     private fun vaiParaFormularioProduto() {
         val intent = Intent(this, FormularioProdutoActivity::class.java)
         startActivity(intent)
-    }
-
-    private fun configuraRecyclerView() {
-        val recyclerView = findViewById<RecyclerView>(R.id.activity_lista_produtos_recyclerView)
-        recyclerView.adapter = this.adapter
     }
 
 }

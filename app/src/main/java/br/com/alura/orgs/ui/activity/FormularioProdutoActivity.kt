@@ -1,23 +1,40 @@
 package br.com.alura.orgs.ui.activity
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import br.com.alura.orgs.R
 import br.com.alura.orgs.dao.ProdutoDAO
+import br.com.alura.orgs.databinding.FormularioProdutoActivityBinding
+import br.com.alura.orgs.extensions.tentaCarregarImagem
 import br.com.alura.orgs.model.Produto
+import br.com.alura.orgs.ui.dialog.FormularioImagemDialog
 import java.math.BigDecimal
 
-class FormularioProdutoActivity : AppCompatActivity(R.layout.formulario_produto) {
+class FormularioProdutoActivity : AppCompatActivity() {
+
+    private val binding by lazy {
+        FormularioProdutoActivityBinding.inflate(layoutInflater)
+    }
+    private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.title = "Cadastrar produto"
         configuraBotaoSalvar()
+        configuraImageView()
+        setContentView(this.binding.root)
+    }
+
+    private fun configuraImageView() {
+        this.binding.formularioProdutoImage.setOnClickListener {
+            FormularioImagemDialog(this).mostra(this.url) { imagem ->
+                this.url  = imagem
+                binding.formularioProdutoImage.tentaCarregarImagem(this, this.url)
+            }
+        }
     }
 
     private fun configuraBotaoSalvar() {
-        val botaoSalvar = findViewById<Button>(R.id.formulario_produto_botao_salvar)
+        val botaoSalvar = this.binding.formularioProdutoBotaoSalvar
         val produtoDAO = ProdutoDAO()
         botaoSalvar.setOnClickListener {
             val produto = criaProduto()
@@ -27,16 +44,17 @@ class FormularioProdutoActivity : AppCompatActivity(R.layout.formulario_produto)
     }
 
     private fun criaProduto(): Produto {
-        val campoValor = findViewById<EditText>(R.id.formulario_produto_valor)
+        val campoValor = this.binding.formularioProdutoValor
         val valor = if (campoValor.text.toString().isBlank()) {
             BigDecimal.ZERO
         } else {
             BigDecimal(campoValor.text.toString())
         }
         return Produto(
-            nome = findViewById<EditText>(R.id.formulario_produto_nome).text.toString(),
-            descricao = findViewById<EditText>(R.id.formulario_produto_descricao).text.toString(),
-            valor = valor
+            nome = this.binding.formularioProdutoNome.text.toString(),
+            descricao = this.binding.formularioProdutoDescricao.text.toString(),
+            valor = valor,
+            imagemUrl = this.url
         )
     }
 

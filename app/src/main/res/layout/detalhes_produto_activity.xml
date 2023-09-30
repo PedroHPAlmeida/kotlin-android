@@ -1,0 +1,64 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/detalhes_produto_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/imagem_padrao" />
+
+    <TextView
+        android:id="@+id/detalhes_produto_valor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/canto_arredondado"
+        android:elevation="10dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:padding="8dp"
+        android:textColor="@color/colorSecondary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/detalhes_produto_imageview"
+        app:layout_constraintStart_toStartOf="@id/detalhes_produto_imageview"
+        app:layout_constraintTop_toBottomOf="@id/detalhes_produto_imageview"
+        tools:text="R$ 1299,99" />
+
+    <TextView
+        android:id="@+id/detalhes_produto_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detalhes_produto_valor"
+        tools:text="@tools:sample/lorem/random" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/detalhes_produto_titulo"
+        app:layout_constraintStart_toStartOf="@id/detalhes_produto_titulo"
+        app:layout_constraintTop_toBottomOf="@id/detalhes_produto_titulo">
+
+        <TextView
+            android:id="@+id/detalhes_produto_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:textSize="20sp"
+            tools:text="@tools:sample/lorem/random" />
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
